@@ -26,21 +26,21 @@ $$
 
 where $B$ is low-rank (estimated by reduced-rank regression) and $E$ is the residual of $M_2$ after removing the mediated pathway from $M_1$.
 
-Take the SVD $M_1 B = UDV^{\top}$ and define the projection $P = UU^{\top}$, $P^{\perp} = I - P$. MVOPR rewrites the regression as
+Take the SVD $M_1 B = U D V^{\top}$ and define the projection $P = U U^{\top}$, $P^{\perp} = I - P$. MVOPR rewrites the regression as
 
 $$
-y = M_1^{*}\beta_1 + M_2^{*}\beta_2 + U\gamma + \epsilon,
+y = M_1^{\ast} \beta_1 + M_2^{\ast} \beta_2 + U \gamma + \epsilon,
 $$
 
 $$
-M_1^{*} = P^{\perp} M_1,\qquad M_2^{*} = E,
+M_1^{\ast} = P^{\perp} M_1, \qquad M_2^{\ast} = E,
 $$
 
-where $M_1^{*}$, $M_2^{*}$, and $U$ are mutually uncorrelated. Thus $\beta_1$ and $\beta_2$ retain their original interpretation, while collinearity from the shared pathway is removed. Penalized least squares (Lasso / SCAD / MCP) is then applied to the transformed predictors.
+where $M_1^{\ast}$, $M_2^{\ast}$, and $U$ are mutually uncorrelated. Thus $\beta_1$ and $\beta_2$ retain their original interpretation, while collinearity from the shared pathway is removed. Penalized least squares (Lasso / SCAD / MCP) is then applied to the transformed predictors.
 
 ### Multiple modalities
 
-Under $M_1 \rightarrow M_2 \rightarrow M_3$, MVOPR sequentially residualizes and projects each modality from **downstream to upstream**, yielding mutually uncorrelated predictors $M_1^{*}$, $M_2^{*}$, $M_3^{*}$ while preserving the regression coefficients of interest.
+Under $M_1 \rightarrow M_2 \rightarrow M_3$, MVOPR sequentially residualizes and projects each modality from **downstream to upstream**, yielding mutually uncorrelated predictors $M_1^{\ast}$, $M_2^{\ast}$, $M_3^{\ast}$ while preserving the regression coefficients of interest.
 
 ---
 
@@ -56,21 +56,21 @@ Three scenarios with inter-modality link $M_2 = M_1 B + E$ and SNR of $E$ varied
 - **(B) Imbalanced dimensions:** $p_1=50$, $p_2=300$
 - **(C) Low-dimensional:** $p_1=p_2=50$
 
-**Main findings.** MVOPR attains the highest Total AUC across SNR grids. Gains are strongest in **AUC($M_2$)** when inter-modality signal is strong, because MVOPR isolates variation in $M_2$ that is not explained by $M_1$. Factor-based competitors (especially FarmSelect) can degrade when the shared structure is higher-rank or dimensions are imbalanced.
+**Main findings.** MVOPR attains the highest Total AUC across SNR grids. Gains are strongest for AUC of $M_2$ when inter-modality signal is strong, because MVOPR isolates variation in $M_2$ that is not explained by $M_1$. Factor-based competitors (especially FarmSelect) can degrade when the shared structure is higher-rank or dimensions are imbalanced.
 
 ![Figure 2: Two-modality AUC by SNR](figures/Fig2_two_modalities.png)
 
-*Figure: AUC for each model by SNR of $E$ in high-dimensional, imbalanced, and low-dimensional settings.*
+Figure caption: AUC for each model by SNR of $E$ in high-dimensional, imbalanced, and low-dimensional settings.
 
 ### 2. Misspecified residual covariance (Simulation 2)
 
 Same high-dimensional spirit as above, but residuals $E$ are **not** independent: Auto-Regressive (AR1, $\rho = 0.9, 0.95$) and Compound Symmetry ($\mu = 0.5, 0.7$) structures.
 
-**Main findings.** MVOPR remains the strongest or near-strongest method for Total AUC and AUC($M_2$) under correlated noise, indicating robustness when the independent-$E$ assumption is violated.
+**Main findings.** MVOPR remains the strongest or near-strongest method for Total AUC and AUC of $M_2$ under correlated noise, indicating robustness when the independent-$E$ assumption is violated.
 
 ![Misspecified covariance simulation](figures/Fig_misspecified_covariance.png)
 
-*Figure: AUC under AR and compound-symmetry residual covariance (misspecified case).*
+Figure caption: AUC under AR and compound-symmetry residual covariance (misspecified case).
 
 ---
 
