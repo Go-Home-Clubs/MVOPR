@@ -8,7 +8,7 @@ An R package is available on CRAN: [MVOPR](https://cran.r-project.org/web/packag
 
 ---
 
-## Method in brief
+## Method
 
 ### Two-modality model
 
